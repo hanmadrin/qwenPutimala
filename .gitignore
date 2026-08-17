@@ -2,11 +2,27 @@
 # Dependencies
 node_modules/
 
-# Editors
-.vscode/
+# Test coverage and build artifacts
+coverage/
+.nyc_output/
+.jest/
 
-# Environment
+# Environment files
 .env
 .env.local
 *.env.*
+
+# Logs
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```
