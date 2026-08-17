@@ -20,6 +20,7 @@ const stockRoutes = require('./routes/stockRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const shipmentRoutes = require('./routes/shipmentRoutes');
 const couponRoutes = require('./routes/couponRoutes');
+const smsRoutes = require('./routes/smsRoutes');
 const backupRoutes = require('./routes/backupRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 
@@ -65,6 +66,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/stock', stockRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/shipments', shipmentRoutes);
+app.use('/api/sms', smsRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/backups', backupRoutes);
 app.use('/api/reports', reportRoutes);

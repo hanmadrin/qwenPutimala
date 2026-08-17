@@ -588,3 +588,202 @@ This file tracks all development progress for the Multi-Branch Ecommerce & POS S
 - [ ] End-to-end testing pending
 
 ---
+
+---
+
+## [2024-08-17 03:30] Phase 6: Order Management & Logistics - Implementation
+
+### Status: ✅ Complete
+
+### Files Created/Modified:
+
+#### Backend (`/backend`)
+
+**Controllers (`/src/controllers`)**
+- `shipmentController.js` - Shipment and courier integration
+  - `createShipment` - Create shipment with courier API integration
+  - `getShipments` - List shipments with filtering and pagination
+  - `getShipmentById` - Get single shipment details
+  - `updateShipmentStatus` - Update shipment status (pending → picked_up → in_transit → out_for_delivery → delivered)
+  - `trackShipment` - Track shipment by tracking number
+  - `deleteShipment` - Delete pending shipments
+  - `getShipmentStats` - Shipment statistics and analytics
+
+- `smsController.js` - SMS notification system
+  - `sendSMS` - Generic SMS sending via gateway
+  - `sendOrderConfirmationSMS` - Order confirmation notifications
+  - `sendOTPSMS` - OTP delivery for customer authentication
+  - `sendDeliveryNotificationSMS` - Delivery status updates (shipped, out_for_delivery, delivered)
+  - `sendPromotionalSMS` - Batch promotional SMS to customers
+  - `getSMSLogs` - SMS history and logs
+  - `getSMSStats` - SMS statistics and cost tracking
+
+**Routes (`/src/routes`)**
+- `shipmentRoutes.js` - Updated with full shipment endpoints
+  - `POST /api/shipments` - Create shipment
+  - `GET /api/shipments` - List shipments
+  - `GET /api/shipments/stats` - Shipment statistics
+  - `GET /api/shipments/track/:trackingNumber` - Track shipment
+  - `GET /api/shipments/:id` - Get shipment details
+  - `PUT /api/shipments/:id/status` - Update shipment status
+  - `DELETE /api/shipments/:id` - Delete shipment
+
+- `smsRoutes.js` - New SMS notification routes
+  - `POST /api/sms/send` - Send SMS
+  - `POST /api/sms/order-confirmation` - Send order confirmation
+  - `POST /api/sms/otp` - Send OTP (public)
+  - `POST /api/sms/delivery-notification` - Send delivery update
+  - `POST /api/sms/promotional` - Send promotional SMS
+  - `GET /api/sms/logs` - Get SMS logs
+  - `GET /api/sms/stats` - Get SMS statistics
+
+**Server (`/src/server.js`)**
+- Added SMS routes registration
+- Integrated shipment and SMS middleware
+
+### Features Implemented:
+
+#### Order Management System
+1. ✅ Complete order CRUD operations (already existed in Phase 5)
+2. ✅ Order status workflow (pending → confirmed → processing → shipped → delivered)
+3. ✅ Order status history tracking
+4. ✅ Payment status management (unpaid → paid/partial/refunded)
+5. ✅ Order statistics and analytics
+6. ✅ Search and filter orders by status, type, payment, branch, customer
+7. ✅ Stock restoration on order cancellation
+
+#### Courier/Shipment Integration
+1. ✅ Create shipment with tracking number generation
+2. ✅ Courier API integration framework (Pathao, RedX, etc.)
+3. ✅ Shipment status workflow (pending → picked_up → in_transit → out_for_delivery → delivered)
+4. ✅ Shipment tracking by tracking number
+5. ✅ Automatic order status update on shipment delivery
+6. ✅ Shipping cost calculation
+7. ✅ COD (Cash on Delivery) amount tracking
+8. ✅ Shipment statistics by courier service
+9. ✅ Shipment status history with location tracking
+10. ✅ Manual shipment support (no courier API)
+
+#### SMS Notification System
+1. ✅ SMS gateway integration framework (SSL Wireless, etc.)
+2. ✅ Order confirmation SMS with order details
+3. ✅ OTP SMS for customer authentication
+4. ✅ Delivery notification SMS (shipped, out_for_delivery, delivered)
+5. ✅ Promotional SMS with personalization
+6. ✅ Batch SMS sending to multiple customers
+7. ✅ SMS logging and audit trail
+8. ✅ SMS statistics (sent, failed, success rate)
+9. ✅ Bangladesh phone number validation
+10. ✅ Estimated SMS cost tracking
+
+#### Coupon System (Already implemented in Phase 5)
+1. ✅ Percentage and fixed discount coupons
+2. ✅ Coupon validation during checkout
+3. ✅ Usage limit tracking
+4. ✅ Validity period enforcement
+5. ✅ Minimum order amount requirement
+6. ✅ Maximum discount cap for percentage coupons
+7. ✅ Coupon statistics and usage tracking
+
+### Design Patterns:
+- Transaction-based database operations for data consistency
+- Error handling with detailed error messages
+- Pagination for list endpoints
+- Filtering and search capabilities
+- Statistics and analytics endpoints
+- Courier API abstraction layer
+- SMS gateway abstraction layer
+
+### Integration Points:
+- **Courier APIs**: Pathao, RedX, Paperfly, Steadfast (configurable)
+- **SMS Gateways**: SSL Wireless, GreenWeb, Twilio (configurable)
+- **Payment Gateway**: SSLCommerz (already integrated)
+- **Order Management**: Full CRUD with status workflow
+- **Customer Notifications**: Automated SMS on order events
+
+### Environment Variables Required:
+```env
+# Courier API
+COURIER_API_URL=https://api.pathaocouriers.com
+COURIER_API_KEY=your_courier_api_key
+COURIER_STORE_ID=your_store_id
+
+# SMS Gateway
+SMS_API_URL=https://api.sslwireless.com
+SMS_API_KEY=your_sms_api_key
+SMS_SENDER_ID=ECOMPOS
+```
+
+### API Endpoints Summary:
+
+**Orders:**
+- `POST /api/orders` - Create order
+- `GET /api/orders` - List orders with filters
+- `GET /api/orders/:id` - Get order details
+- `PUT /api/orders/:id/status` - Update order status
+- `PUT /api/orders/:id/payment` - Update payment status
+- `DELETE /api/orders/:id` - Delete order
+- `GET /api/orders/stats` - Order statistics
+
+**Shipments:**
+- `POST /api/shipments` - Create shipment
+- `GET /api/shipments` - List shipments
+- `GET /api/shipments/stats` - Shipment statistics
+- `GET /api/shipments/track/:trackingNumber` - Track shipment
+- `GET /api/shipments/:id` - Get shipment details
+- `PUT /api/shipments/:id/status` - Update shipment status
+- `DELETE /api/shipments/:id` - Delete shipment
+
+**SMS:**
+- `POST /api/sms/send` - Send SMS
+- `POST /api/sms/order-confirmation` - Send order confirmation
+- `POST /api/sms/otp` - Send OTP
+- `POST /api/sms/delivery-notification` - Send delivery update
+- `POST /api/sms/promotional` - Send promotional SMS
+- `GET /api/sms/logs` - Get SMS logs
+- `GET /api/sms/stats` - Get SMS statistics
+
+**Coupons:**
+- `POST /api/coupons` - Create coupon
+- `GET /api/coupons` - List coupons
+- `GET /api/coupons/stats` - Coupon statistics
+- `GET /api/coupons/validate/:code` - Validate coupon code
+- `GET /api/coupons/:id` - Get coupon details
+- `PUT /api/coupons/:id` - Update coupon
+- `DELETE /api/coupons/:id` - Delete coupon
+
+### Known Issues/TODOs:
+- [ ] Actual courier API credentials needed for production
+- [ ] Actual SMS gateway credentials needed for production
+- [ ] SMS template customization not implemented
+- [ ] Multi-courier selection UI not implemented
+- [ ] Bulk shipment creation not implemented
+- [ ] Shipment label/invoice printing not implemented
+- [ ] Real-time courier tracking webhook not implemented
+- [ ] SMS opt-out/unsubscribe feature not implemented
+
+### Next Steps:
+1. Configure actual courier API credentials
+2. Configure actual SMS gateway credentials
+3. Implement shipment label printing
+4. Add courier selection UI in admin panel
+5. Implement webhook handlers for courier updates
+6. Add SMS template management
+7. Implement Google Drive backup system (Phase 7)
+8. Build analytics dashboard (Phase 7)
+
+### Verification Status:
+- [x] Shipment controller created with all methods
+- [x] SMS controller created with all methods
+- [x] Shipment routes configured
+- [x] SMS routes configured
+- [x] Server.js updated with new routes
+- [x] Order management complete
+- [x] Courier integration framework ready
+- [x] SMS notification system ready
+- [x] Coupon system already functional
+- [ ] Integration testing with real APIs pending
+- [ ] End-to-end order flow testing pending
+
+---
+
