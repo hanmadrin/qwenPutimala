@@ -6,6 +6,8 @@ import POS from './pages/POS';
 import Orders from './pages/Orders';
 import Products from './pages/Products';
 import Inventory from './pages/Inventory';
+import Reports from './pages/Reports';
+import Backups from './pages/Backups';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="orders" element={<Orders />} />
           <Route path="products" element={<Products />} />
           <Route path="inventory" element={<Inventory />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="backups" element={<Backups />} />
         </Route>
       </Routes>
     </Router>

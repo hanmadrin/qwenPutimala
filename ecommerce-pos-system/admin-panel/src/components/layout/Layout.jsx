@@ -10,7 +10,9 @@ import {
   Menu,
   X,
   LogOut,
-  UserCircle
+  UserCircle,
+  BarChart3,
+  Database
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -22,6 +24,8 @@ const Sidebar = ({ isOpen, onClose }) => {
     { icon: Package, label: 'Orders', path: '/orders' },
     { icon: Boxes, label: 'Products', path: '/products' },
     { icon: Users, label: 'Customers', path: '/customers' },
+    { icon: BarChart3, label: 'Reports', path: '/reports' },
+    { icon: Database, label: 'Backups', path: '/backups' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
 
