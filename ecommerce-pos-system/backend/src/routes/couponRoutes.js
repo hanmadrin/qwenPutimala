@@ -1,7 +1,26 @@
 const express = require('express');
 const router = express.Router();
-// Placeholder - to be implemented
-router.get('/', (req, res) => {
-  res.json({ success: true, message: 'Coupon routes - Coming soon' });
-});
+const {
+  createCoupon,
+  getCoupons,
+  getCouponById,
+  getCouponByCode,
+  updateCoupon,
+  deleteCoupon,
+  getCouponStats
+} = require('../controllers/couponController');
+const authMiddleware = require('../middleware/authMiddleware');
+
+// All routes require authentication
+router.use(authMiddleware);
+
+// Coupon routes
+router.post('/', createCoupon);
+router.get('/', getCoupons);
+router.get('/stats', getCouponStats);
+router.get('/validate/:code', getCouponByCode);
+router.get('/:id', getCouponById);
+router.put('/:id', updateCoupon);
+router.delete('/:id', deleteCoupon);
+
 module.exports = router;

@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "foreignKeys"
 }
 
 // ===========================
@@ -94,7 +95,7 @@ enum AdjustmentReason {
 // ===========================
 
 model Branch {
-  id        Int          @id @autoincrement
+  id        Int          @id @default(autoincrement())
   name      String
   code      String       @unique
   address   String?
@@ -114,7 +115,7 @@ model Branch {
 }
 
 model User {
-  id        Int        @id @autoincrement
+  id        Int        @id @default(autoincrement())
   name      String
   email     String     @unique
   phone     String?
@@ -135,7 +136,7 @@ model User {
 }
 
 model Customer {
-  id           Int                @id @autoincrement
+  id           Int                @id @default(autoincrement())
   name         String
   phone        String             @unique
   email        String?
@@ -150,7 +151,7 @@ model Customer {
 }
 
 model CustomerAddress {
-  id            Int      @id @autoincrement
+  id            Int      @id @default(autoincrement())
   customerId    Int
   label         String
   addressLine1  String
@@ -168,7 +169,7 @@ model CustomerAddress {
 }
 
 model Category {
-  id          Int          @id @autoincrement
+  id          Int          @id @default(autoincrement())
   nameEn      String
   nameBn      String
   slug        String       @unique
@@ -187,7 +188,7 @@ model Category {
 }
 
 model Brand {
-  id        Int          @id @autoincrement
+  id        Int          @id @default(autoincrement())
   name      String
   slug      String       @unique
   image     String?
@@ -201,7 +202,7 @@ model Brand {
 }
 
 model Tag {
-  id        Int      @id @autoincrement
+  id        Int      @id @default(autoincrement())
   name      String
   slug      String   @unique
   createdAt DateTime @default(now()) @map("created_at")
@@ -212,7 +213,7 @@ model Tag {
 }
 
 model Product {
-  id               Int            @id @autoincrement
+  id               Int            @id @default(autoincrement())
   nameEn           String
   nameBn           String
   slug             String         @unique
@@ -220,13 +221,13 @@ model Product {
   shortDescriptionBn String?
   descriptionEn    String?
   descriptionBn    String?
-  price            Decimal(10, 2)
-  discountPrice    Decimal(10, 2)?
+  price            Float
+  discountPrice    Float?
   categoryId       Int
   brandId          Int?
   sku              String?
   barcode          String?
-  weightKg         Decimal(5, 2)?
+  weightKg         Float?
   dimensionsCm     String?
   status           ProductStatus  @default(active)
   featured         Boolean        @default(false)
@@ -247,7 +248,7 @@ model Product {
 }
 
 model ProductImage {
-  id         Int      @id @autoincrement
+  id         Int      @id @default(autoincrement())
   productId  Int
   imageUrl   String
   altText    String?
@@ -260,12 +261,12 @@ model ProductImage {
 }
 
 model ProductVariant {
-  id           Int       @id @autoincrement
+  id           Int       @id @default(autoincrement())
   productId    Int
   sku          String    @unique
   barcode      String?
   attributes   Json      // {"Size": "M", "Color": "Red"}
-  priceOverride Decimal(10, 2)?
+  priceOverride Float?
   image        String?
   sortOrder    Int       @default(0)
   status       ProductStatus @default(active)
@@ -280,7 +281,7 @@ model ProductVariant {
 }
 
 model BranchStock {
-  id                Int      @id @autoincrement
+  id                Int      @id @default(autoincrement())
   branchId          Int
   variantId         Int
   quantity          Int      @default(0)
@@ -295,7 +296,7 @@ model BranchStock {
 }
 
 model Order {
-  id                 Int          @id @autoincrement
+  id                 Int          @id @default(autoincrement())
   orderNumber        String       @unique
   customerId         Int?
   branchId           Int
@@ -303,10 +304,10 @@ model Order {
   status             OrderStatus  @default(pending)
   paymentStatus      PaymentStatus @default(unpaid)
   paymentMethod      PaymentMethod
-  subtotal           Decimal(10, 2)
-  discountAmount     Decimal(10, 2) @default(0)
-  shippingCharge     Decimal(10, 2) @default(0)
-  total              Decimal(10, 2)
+  subtotal           Float
+  discountAmount     Float @default(0)
+  shippingCharge     Float @default(0)
+  total              Float
   couponId           Int?
   customerNote       String?
   shippingAddressId  Int?
@@ -333,14 +334,14 @@ model Order {
 }
 
 model OrderItem {
-  id          Int      @id @autoincrement
+  id          Int      @id @default(autoincrement())
   orderId     Int
   variantId   Int
   productName String
   sku         String
   quantity    Int
-  unitPrice   Decimal(10, 2)
-  totalPrice  Decimal(10, 2)
+  unitPrice   Float
+  totalPrice  Float
   attributes  Json
   createdAt   DateTime @default(now()) @map("created_at")
 
@@ -351,7 +352,7 @@ model OrderItem {
 }
 
 model OrderStatusHistory {
-  id        Int         @id @autoincrement
+  id        Int         @id @default(autoincrement())
   orderId   Int
   oldStatus OrderStatus?
   newStatus OrderStatus
@@ -366,11 +367,11 @@ model OrderStatusHistory {
 }
 
 model Payment {
-  id            Int                   @id @autoincrement
+  id            Int                   @id @default(autoincrement())
   orderId       Int
   method        PaymentMethod
   transactionId String?
-  amount        Decimal(10, 2)
+  amount        Float
   status        PaymentTransactionStatus @default(pending)
   metadata      Json?
   createdAt     DateTime              @default(now()) @map("created_at")
@@ -382,12 +383,12 @@ model Payment {
 }
 
 model Shipment {
-  id             Int      @id @autoincrement
+  id             Int      @id @default(autoincrement())
   orderId        Int
   courierName    String
   trackingId     String?
   status         String?
-  cost           Decimal(10, 2)?
+  cost           Float?
   labelUrl       String?
   pickupAddress  String
   deliveryAddress String
@@ -400,12 +401,12 @@ model Shipment {
 }
 
 model Coupon {
-  id            Int         @id @autoincrement
+  id            Int         @id @default(autoincrement())
   code          String      @unique
   type          CouponType
-  value         Decimal(10, 2)
-  minOrderAmount Decimal(10, 2)?
-  maxDiscount   Decimal(10, 2)?
+  value         Float
+  minOrderAmount Float?
+  maxDiscount   Float?
   validFrom     DateTime
   validUntil    DateTime
   usageLimit    Int?
@@ -420,7 +421,7 @@ model Coupon {
 }
 
 model Invoice {
-  id           Int      @id @autoincrement
+  id           Int      @id @default(autoincrement())
   orderId      Int      @unique
   invoiceNumber String  @unique
   pdfUrl       String?
@@ -434,7 +435,7 @@ model Invoice {
 }
 
 model StockAdjustment {
-  id           Int              @id @autoincrement
+  id           Int              @id @default(autoincrement())
   branchId     Int
   variantId    Int
   previousQty  Int
@@ -451,7 +452,7 @@ model StockAdjustment {
 }
 
 model ActivityLog {
-  id         Int      @id @autoincrement
+  id         Int      @id @default(autoincrement())
   userId     Int?
   action     String
   entityType String
@@ -472,10 +473,10 @@ model Setting {
 }
 
 model Backup {
-  id           Int      @id @autoincrement
+  id           Int      @id @default(autoincrement())
   filename     String
   driveFileId  String
-  sizeMb       Decimal(10, 2)?
+  sizeMb       Float?
   createdBy    Int
   createdAt    DateTime @default(now()) @map("created_at")
 
