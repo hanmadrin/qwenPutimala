@@ -2,47 +2,60 @@
 # Dependencies
 node_modules/
 
-# Build artifacts
-dist/
-build/
-
-# Environment
+# Environment variables
 .env
 .env.local
 *.env.*
 
-# Editors
-.vscode/
-.idea/
-
 # Logs
 *.log
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
 
 # Temporary files
 *.tmp
 *.swp
-*~
+
+# Build outputs
+dist/
+build/
+target/
+
+# Python related
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
+
+# IDE related
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Testing
-.pytest_cache/
-.mypy_cache/
-
-# Virtual environments
-venv/
-.venv/
+Icon?
 ```
