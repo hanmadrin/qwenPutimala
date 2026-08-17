@@ -2,18 +2,18 @@
 # Dependencies
 node_modules/
 
-# Build outputs
+# Build artifacts
 dist/
 build/
-.next/
-out/
+*.js.map
+*.css.map
 
-# Environment variables
+# Environment
 .env
 .env.local
 .env.*
 
-# Editor files
+# Editors
 .vscode/
 .idea/
 *.swp
@@ -23,29 +23,20 @@ out/
 # Logs
 *.log
 
-# Python specific
+# Python (if any backend exists)
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
 .Python
-env/
 venv/
 .venv/
-.ENV
-.venv.bak/
-pip-log.txt
-pip-selfcheck.json
 
-# Coverage reports
+# Coverage
 coverage/
 htmlcov/
 .coverage
 
-# OS generated files
+# OS
 .DS_Store
 Thumbs.db
-
-# MyPy cache
-.mypy_cache/
 ```
