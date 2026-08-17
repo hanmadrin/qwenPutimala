@@ -9,7 +9,7 @@ const {
   deleteOrder,
   getOrderStats
 } = require('../controllers/orderController');
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // All routes require authentication
 router.use(authMiddleware);

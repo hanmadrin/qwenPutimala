@@ -9,7 +9,7 @@ const {
   getLowStockAlerts,
   getStockStats
 } = require('../controllers/stockController');
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // All routes require authentication
 router.use(authMiddleware);
