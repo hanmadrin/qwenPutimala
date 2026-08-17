@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { fetchProduct } from '@/lib/api';
-import { useCart } from '@/lib/hooks';
+import { useCart } from '@/context/CartContext';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -17,7 +17,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
   
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!product) return;
     
-    addToCart(product, quantity, selectedVariant);
+    addItem(product, quantity, selectedVariant);
     
     // Show a simple notification (could be enhanced with a toast library)
     alert(`${quantity} x ${product.name} added to cart!`);

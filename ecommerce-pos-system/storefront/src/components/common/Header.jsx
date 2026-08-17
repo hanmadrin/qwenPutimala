@@ -3,9 +3,13 @@
 import Link from 'next/link';
 import { ShoppingCart, User, Menu, X, Search } from 'lucide-react';
 import { useState } from 'react';
+import CartDrawer from '@/components/cart/CartDrawer';
+import { useCart } from '@/context/CartContext';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { itemCount } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
@@ -37,12 +41,17 @@ export default function Header() {
             </button>
 
             {/* Cart */}
-            <Link href="/cart" className="relative text-gray-600 hover:text-primary-600">
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="relative text-gray-600 hover:text-primary-600"
+            >
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary-600 text-xs text-white">
-                0
-              </span>
-            </Link>
+              {itemCount > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary-600 text-xs text-white">
+                  {itemCount}
+                </span>
+              )}
+            </button>
 
             {/* Account */}
             <Link href="/account/dashboard" className="text-gray-600 hover:text-primary-600">
@@ -95,6 +104,9 @@ export default function Header() {
           </div>
         )}
       </div>
+
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 }
