@@ -23,6 +23,7 @@ const couponRoutes = require('./routes/couponRoutes');
 const smsRoutes = require('./routes/smsRoutes');
 const backupRoutes = require('./routes/backupRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const activityLogRoutes = require('./routes/activityLogRoutes');
 
 // Import middlewares
 const errorHandler = require('./middlewares/errorHandler');
@@ -70,6 +71,7 @@ app.use('/api/sms', smsRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/backups', backupRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/activity-logs', activityLogRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
