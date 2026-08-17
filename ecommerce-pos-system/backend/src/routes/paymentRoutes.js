@@ -11,7 +11,7 @@ const {
   getPayments,
   getPaymentStats
 } = require('../controllers/paymentController');
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // All routes require authentication except SSLCommerz callbacks
 router.post('/sslcommerz/initiate', authMiddleware, initiateSSLCommerzPayment);
